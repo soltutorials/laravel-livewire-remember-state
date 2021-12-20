@@ -39,5 +39,5 @@ In your component’s mount method, you can set the following options before cal
     
     
     
-# How the withRemenerState trait work
+# How the withRememberState trait work
 [ How to save state with laravel-livewire ](https://soltutorials.com/how-to-save-state-with-laravel-livewire/)

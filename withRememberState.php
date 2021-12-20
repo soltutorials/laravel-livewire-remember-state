@@ -22,6 +22,11 @@ trait withRememberState
      */
     public string $component = 'track';
 
+    /**
+     * main tracker var in session
+     *
+     * @var string
+     */
     private string $mainTracker = "_livewire_component_states";
 
     /**

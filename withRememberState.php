@@ -63,6 +63,7 @@ trait withRememberState
 
             //Properties found in A(session) that are not in B(properties to track)
             //coder doesn't wish to track them anymore.Forget them
+            //this runs when you remove that was being track
             if (session()->has( $this->mainTracker.'.'.$this->component.'.payload')) {
                 $trackedProperties = $this->getPayload();
                 $unTrackItems = array_diff_key($trackedProperties, $properties);
@@ -74,16 +75,15 @@ trait withRememberState
 
             //add each property to be tracked to trackedProperties
             foreach ($properties as $param => $value){
-                //unknown property, not found in class
                 throw_if(!property_exists($this,$param),'PropertyNotFoundException',$param);
                 if ( !array_key_exists( $param,$trackedProperties ) ){//track properties not being tracked
                     $trackedProperties[$param] = $value;
-                }else{//restore state of currently tracked properties
+                }else{
+                    //restore state of currently tracked properties
                     $this->{$param} =$trackedProperties[$param];
                 }
             }
-
-            //json encode, encrypt and store tracked items in session
+            //extra security.
             $jsonTracks = json_encode($trackedProperties);
             session([$this->mainTracker.'.'.$this->component.'.payload' => Crypt::encrypt( $jsonTracks) ]);
 
@@ -111,8 +111,6 @@ trait withRememberState
     /**
      * track page refresh. Reset state after X number of refresh
      *
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private function trackRefresh() :void
     {
@@ -121,7 +119,7 @@ trait withRememberState
 
             if(session()->has($tracker.'.resetAfterRefresh')){
                 $currentRefresh = session()->get($tracker . '.pageRefresh') + 1;
-                session([$tracker . '.pageRefresh' => $currentRefresh ]); //reset tracker, set all component to initial state
+                session([$tracker . '.pageRefresh' => $currentRefresh ]); //reset tracker,  all component to initial set state
                 if ($currentRefresh >= session()->get($tracker.'.resetAfterRefresh'))
                     $this->stopTracking();
 

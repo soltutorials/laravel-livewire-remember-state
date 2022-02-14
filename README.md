@@ -1,5 +1,5 @@
 # laravel-livewire-remember-state
-This trait can be added to your existing laravel-livewire component class to enable state saving. It allows you to specify what properties of the component to track and also exposes 2 methods for moving between states.
+This trait can be added to your existing laravel-livewire component class to enable state saving. It allows you to specify what properties of the component to track and also exposes 2 methods for moving between states. The states are stored in user session.
 
 Laravel-Livewire is fairly simple and easy to use, but it <strong>doesn’t store state</strong>. Meaning, when a user refreshes the page, they lose whatever state the component was in before the refresh. Meaning, properties value set by the user in the course of interacting with your component will be lost.
 
